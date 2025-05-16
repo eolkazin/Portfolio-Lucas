@@ -1,0 +1,89 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  font-family: "Courier New", Courier, monospace;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Terminal container */
+#terminal {
+  width: 90%;
+  max-width: 800px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #000;
+  overflow: hidden;
+}
+
+/* Header estilo macOS */
+.terminal-header {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #444;
+}
+
+.btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.red {
+  background-color: #ff5f56;
+}
+
+.yellow {
+  background-color: #ffbd2e;
+}
+
+.green {
+  background-color: #27c93f;
+}
+
+/* Conteúdo do terminal */
+#output {
+  padding: 20px;
+  white-space: pre-wrap;
+  font-size: 16px;
+}
+
+/* Linha de input */
+.input-line {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #333;
+}
+
+.prompt {
+  margin-right: 10px;
+  color: #00ff7f;
+}
+
+#input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  flex: 1;
+}
+
+.cmd {
+  color: #00afff;
+  font-weight: bold;
+}

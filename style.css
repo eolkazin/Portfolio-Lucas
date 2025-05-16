@@ -1,0 +1,255 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  font-family: "Courier New", Courier, monospace;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background-color: #111;
+}
+
+#terminal {
+  width: 90%;
+  max-width: 800px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  max-height: 600px;
+  position: relative;
+  z-index: 10;
+  display: none; /* esconde até boot iniciar */
+}
+
+.terminal-header {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #444;
+}
+
+.btn-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.red {
+  background-color: #ff5f56;
+}
+
+.yellow {
+  background-color: #ffbd2e;
+}
+
+.green {
+  background-color: #27c93f;
+}
+
+#output {
+  padding: 20px;
+  white-space: pre-wrap;
+  font-size: 16px;
+  flex: 1;
+  overflow-y: auto;
+  background-color: #1e1e1e;
+  scrollbar-width: thin;
+  scrollbar-color: #00ff7f #111;
+  user-select: text;
+}
+
+#output::-webkit-scrollbar {
+  width: 8px;
+}
+
+#output::-webkit-scrollbar-track {
+  background: #111;
+}
+
+#output::-webkit-scrollbar-thumb {
+  background-color: #00ff7f;
+  border-radius: 10px;
+  border: 2px solid #111;
+}
+
+.input-line {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #333;
+  background-color: #2d2d2d;
+  display: none; /* só mostra depois da boot */
+}
+
+.prompt {
+  margin-right: 10px;
+  color: #00ff7f;
+  font-weight: bold;
+  user-select: none;
+}
+
+#cmd {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  flex: 1;
+  display: block;
+}
+
+#cmd::placeholder {
+  color: #555;
+}
+
+#enterBtn {
+  padding: 15px 30px;
+  font-family: "Courier New", monospace;
+  font-size: 20px;
+  background-color: #00ff00;
+  border: none;
+  border-radius: 8px;
+  color: #111;
+  cursor: pointer;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+  user-select: none;
+  position: relative;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+#enterBtn.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loadingSection {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; /* faltava definir flex */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* espaçamento controlado */
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.8); /* fundo sutil pra destacar */
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00ff00aa; /* glow discreto */
+  z-index: 9999; /* sobe acima de tudo */
+}
+
+.loader {
+  border: 4px solid #111;
+  border-top: 4px solid #00ff00;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00ff00;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, background-color 0.15s ease,
+    border-color 0.15s ease;
+  z-index: 9999; /* deixa acima de tudo */
+  mix-blend-mode: difference; /* efeito visual top */
+  will-change: transform, background-color; /* otimiza animação */
+  user-select: none; /* evita seleção por acidente */
+  backdrop-filter: blur(2px); /* deixa futurista */
+}
+
+#custom-cursor.active {
+  transform: translate(-50%, -50%) scale(1.8);
+  background-color: rgba(0, 255, 0, 0.3);
+  border-color: #00ff00;
+  box-shadow: 0 0 8px #00ff00;
+}
+body,
+html {
+  cursor: none; /* esconde cursor padrão */
+}
+
+/* Linha de input */
+.input-line {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #333;
+}
+
+/* Linha de input */
+.input-line {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #333;
+}
+
+.prompt {
+  margin-right: 10px;
+  color: #00ff7f;
+}
+
+#input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  flex: 1;
+}
+
+.cmd {
+  color: #00afff;
+  font-weight: bold;
+}

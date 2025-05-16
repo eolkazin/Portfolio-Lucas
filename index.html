@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Terminal Portfólio</title>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+
+    <button id="enterBtn">Entrar</button>
+
+    <div id="terminal">
+      <div class="terminal-header">
+        <span class="btn-circle red"></span>
+        <span class="btn-circle yellow"></span>
+        <span class="btn-circle green"></span>
+      </div>
+      <div id="output"></div>
+      <div class="input-line">
+        <span class="prompt">lucas@portfolio:~$</span>
+        <input
+          id="cmd"
+          type="text"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div id="loadingSection">
+      <div class="loader"></div>
+      <span>Sistema iniciado...</span>
+    </div>
+
+    <div id="custom-cursor"></div>
+
+    <audio
+      id="beep"
+      src="https://freesound.org/data/previews/341/341695_5260877-lq.mp3"
+      preload="auto"
+    ></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
