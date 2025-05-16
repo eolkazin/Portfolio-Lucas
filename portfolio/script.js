@@ -1,8 +1,11 @@
 const input = document.getElementById("input");
 const output = document.getElementById("output");
 const terminal = document.getElementById("terminal");
+
 let history = [];
 let historyIndex = -1;
+
+const CV_URL = "https://github.com/eolkazin/raw/main/curriculo.pdf"; // link direto para o PDF do currículo
 
 const commands = {
   help: `Comandos disponíveis:
@@ -29,7 +32,7 @@ const commands = {
 - API de Produtos (Django REST + PostgreSQL)
 - CRUD Visual (HTML/CSS/JS)`,
 
-  certificates: `Udemy:
+  certificates: `Certificados Udemy:
 - Python Essencial
 - Django Masterclass
 - SQL Completo
@@ -37,27 +40,27 @@ const commands = {
 
   contact: `📧 Email: lucasgueraa999@gmail.com
 📱 WhatsApp: (31) 98703-5797
-🌐 GitHub: github.com/eolkazin`,
+🌐 GitHub: https://github.com/eolkazin`,
 
-  social: `🔗 LinkedIn: linkedin.com/in/lucasguerra-dev
-🔗 GitHub: github.com/eolkazin`,
+  social: `🔗 LinkedIn: https://linkedin.com/in/lucasguerra-dev
+🔗 GitHub: https://github.com/eolkazin`,
 
-  download: `🎯 Baixe meu currículo: [simulado]
-Abra o console do navegador e digite:
-window.open("https://github.com/eolkazin", "_blank")`,
+  download: () => {
+    // Gera link clicável para baixar o currículo
+    return `🎯 Clique para baixar meu currículo: 
+<a href="${CV_URL}" target="_blank" download="LucasGuerra_Curriculo.pdf" style="color:#ff5555; text-decoration:underline;">Download CV</a>`;
+  },
 
   clear: () => {
     output.innerHTML = "";
+    return "";
   },
 
-  history: () => {
-    return history.join("\n");
-  },
+  history: () => history.join("\n"),
 
   theme: () => {
-    document.body.style.background =
-      document.body.style.background === "black" ? "#111" : "black";
-    return "Tema alternado.";
+    const isDark = document.body.classList.toggle("dark-theme");
+    return isDark ? "Tema escuro ativado." : "Tema claro ativado.";
   },
 
   exit: "Encerrando terminal... Até mais!",
@@ -65,38 +68,58 @@ window.open("https://github.com/eolkazin", "_blank")`,
   sudo: "Permissão negada. Você não é root 😎",
 };
 
+// Função para adicionar saída formatada no terminal
+function appendOutput(text, isHTML = false) {
+  const div = document.createElement("div");
+  div.classList.add("terminal-output");
+  if (isHTML) div.innerHTML = text;
+  else div.textContent = text;
+  output.appendChild(div);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+// Evento principal do input
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     const cmd = input.value.trim();
+    if (!cmd) return;
+
+    // Salvar no histórico
     history.push(cmd);
     historyIndex = history.length;
-    output.innerHTML += `<div><span class="prompt">lucas@portfolio:~$</span> ${cmd}</div>`;
 
-    if (commands[cmd]) {
-      const response =
-        typeof commands[cmd] === "function" ? commands[cmd]() : commands[cmd];
-      output.innerHTML += `<pre>${response}</pre>`;
+    appendOutput(`lucas@portfolio:~$ ${cmd}`);
+
+    const command = commands[cmd.toLowerCase()];
+
+    if (command) {
+      const result = typeof command === "function" ? command() : command;
+      appendOutput(result, typeof command === "function" && cmd === "download");
+      if (cmd === "clear") output.innerHTML = "";
+      if (cmd === "exit") input.disabled = true;
     } else {
-      output.innerHTML += `<pre>Comando não encontrado: ${cmd}</pre>`;
+      appendOutput(`Comando não encontrado: ${cmd}`);
     }
 
     input.value = "";
-    terminal.scrollTop = terminal.scrollHeight;
   }
 
-  // Navegar histórico ↑↓
+  // Navegação no histórico
   if (e.key === "ArrowUp") {
     if (historyIndex > 0) {
       historyIndex--;
       input.value = history[historyIndex];
     }
+    e.preventDefault();
   }
   if (e.key === "ArrowDown") {
     if (historyIndex < history.length - 1) {
       historyIndex++;
       input.value = history[historyIndex];
     } else {
+      historyIndex = history.length;
       input.value = "";
     }
+    e.preventDefault();
   }
 });
