@@ -155,19 +155,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex; /* faltava definir flex */
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px; /* espaçamento controlado */
   color: #00ff00;
   font-family: "Courier New", monospace;
   font-size: 18px;
-  background: rgba(0, 0, 0, 0.8); /* fundo sutil pra destacar */
-  padding: 15px 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #00ff00aa; /* glow discreto */
-  z-index: 9999; /* sobe acima de tudo */
+  z-index: 15;
 }
 
 .loader {
@@ -177,6 +170,7 @@ body {
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
+  margin-bottom: 10px;
 }
 
 @keyframes spin {
