@@ -5,121 +5,145 @@ const terminal = document.getElementById("terminal");
 let history = [];
 let historyIndex = -1;
 
-const CV_URL = "https://github.com/eolkazin/raw/main/curriculo.pdf"; // link direto para o PDF do currículo
+const CV_URL =
+  "https://raw.githubusercontent.com/eolkazin/Portfolio-Lucas/main/assets/Cv_LucasGuerra.pdf";
 
 const commands = {
-  help: `Comandos disponíveis:
-- about: Sobre mim
-- skills: Minhas habilidades
-- projects: Projetos
-- certificates: Certificados
-- contact: Contato
-- social: Redes sociais
-- download: Baixar currículo
-- theme: Alternar tema
-- clear: Limpar terminal
-- history: Histórico de comandos
-- exit: Encerrar
-- sudo: Acesso negado (brincadeira)
-`,
+  help: `
+<pre class="cmd-block">📜 <strong>Available commands</strong>:
+- <span class="cmd">about</span>: About me
+- <span class="cmd">skills</span>: My skills
+- <span class="cmd">projects</span>: Projects
+- <span class="cmd">certificates</span>: Certificates
+- <span class="cmd">contact</span>: Contact info
+- <span class="cmd">social</span>: Social media
+- <span class="cmd">download</span>: Download CV
+- <span class="cmd">theme</span>: Toggle theme
+- <span class="cmd">clear</span>: Clear terminal
+- <span class="cmd">history</span>: Command history
+- <span class="cmd">exit</span>: Exit terminal
+- <span class="cmd">sudo</span>: Permission denied (just kidding)</pre>`,
 
-  about: `Sou Lucas Guerra, Dev backend com foco em Python, Django e APIs REST. Estudante de ADS e apaixonado por resolver problemas com código.`,
+  about: `
+<pre class="cmd-block">👨‍💻 <strong>About me</strong>:
+I'm Lucas Guerra, backend developer from Minas Gerais.
+Focused on Python & Django with strong REST API skills.
+Currently studying Analysis and Development of Systems (ADS).
+Experienced in PostgreSQL, SQLite, Git, GitHub.
+Passionate about clean, scalable code and solving problems fast.
+Open to hybrid/presencial roles in BH metro area.
+Check my GitHub for projects & contributions.</pre>`,
 
-  skills: `Python, Django, HTML, CSS, JavaScript, PostgreSQL, SQLite, Git, GitHub, RESTful APIs`,
+  skills: `
+<pre class="cmd-block">🛠 <strong>Skills:</strong>
+- Python (Django, REST APIs)
+- HTML, CSS, JavaScript (básico)
+- PostgreSQL, SQLite
+- Git, GitHub
+- Agile methodologies & teamwork</pre>`,
 
-  projects: `Projetos:
-- Sistema de Tarefas (Django + SQLite)
-- API de Produtos (Django REST + PostgreSQL)
-- CRUD Visual (HTML/CSS/JS)`,
+  projects: `
+<pre class="cmd-block">📁 <strong>Projects:</strong>
+- Task System: Django + SQLite, task manager CRUD
+- Products API: Django REST + PostgreSQL, full API backend
+- Visual CRUD: Frontend CRUD com HTML/CSS/JS</pre>`,
 
-  certificates: `Certificados Udemy:
-- Python Essencial
+  certificates: `
+<pre class="cmd-block">🎓 <strong>Udemy Certificates:</strong>
+- Essential Python
 - Django Masterclass
-- SQL Completo
-- Algoritmos & Lógica de Programação`,
+- Complete SQL
+- Algorithms & Programming Logic</pre>`,
 
-  contact: `📧 Email: lucasgueraa999@gmail.com
-📱 WhatsApp: (31) 98703-5797
-🌐 GitHub: https://github.com/eolkazin`,
+  contact: `
+<pre class="cmd-block">📬 <strong>Contact:</strong>
+📧 Email: <span class="highlight">lucasgueraa999@gmail.com</span>
+📱 WhatsApp: <span class="highlight">(31) 98703-5797</span>
+🌐 GitHub: <a href="https://github.com/eolkazin" target="_blank" class="link">eolkazin</a></pre>`,
 
-  social: `🔗 LinkedIn: https://linkedin.com/in/lucasguerra-dev
-🔗 GitHub: https://github.com/eolkazin`,
+  social: `
+<pre class="cmd-block">🌐 <strong>Social Media:</strong>
+🔗 LinkedIn: <a href="https://linkedin.com/in/lucasguerra-dev" target="_blank" class="link">lucasguerra-dev</a>
+🔗 GitHub: <a href="https://github.com/eolkazin" target="_blank" class="link">eolkazin</a></pre>`,
 
-  download: () => {
-    // Gera link clicável para baixar o currículo
-    return `🎯 Clique para baixar meu currículo: 
-<a href="${CV_URL}" target="_blank" download="LucasGuerra_Curriculo.pdf" style="color:#ff5555; text-decoration:underline;">Download CV</a>`;
-  },
+  download: () => `
+<pre class="cmd-block">⬇️ <strong>Resume:</strong>
+<a href="${CV_URL}" target="_blank" download="LucasGuerra_Resume.pdf" class="link">Click here to download</a></pre>`,
 
   clear: () => {
     output.innerHTML = "";
     return "";
   },
 
-  history: () => history.join("\n"),
+  history: () => `<pre class="cmd-block">${history.join("\n")}</pre>`,
 
   theme: () => {
     const isDark = document.body.classList.toggle("dark-theme");
-    return isDark ? "Tema escuro ativado." : "Tema claro ativado.";
+    return `<pre class="cmd-block">${
+      isDark ? "🌑 Dark theme enabled." : "🌕 Light theme enabled."
+    }</pre>`;
   },
 
-  exit: "Encerrando terminal... Até mais!",
+  exit: `<pre class="cmd-block">👋 Closing terminal... See you!</pre>`,
 
-  sudo: "Permissão negada. Você não é root 😎",
+  sudo: `<pre class="cmd-block">❌ Permission denied. You are not root 😎</pre>`,
 };
 
-// Função para adicionar saída formatada no terminal
-function appendOutput(text, isHTML = false) {
+function appendOutput(content, isHTML = false) {
   const div = document.createElement("div");
   div.classList.add("terminal-output");
-  if (isHTML) div.innerHTML = text;
-  else div.textContent = text;
+  if (isHTML) div.innerHTML = content;
+  else div.textContent = content;
   output.appendChild(div);
-  terminal.scrollTop = terminal.scrollHeight;
+  requestAnimationFrame(() => {
+    terminal.scrollTop = terminal.scrollHeight;
+  });
 }
 
-// Evento principal do input
+function handleCommand(inputText) {
+  const commandText = inputText.toLowerCase().trim();
+  if (!commandText) return;
+
+  appendOutput(`lucas@portfolio:~$ ${inputText}`);
+
+  history.push(inputText);
+  historyIndex = history.length;
+
+  const command = commands[commandText];
+  if (!command) {
+    appendOutput(`Command not found: ${inputText}`);
+    return;
+  }
+
+  if (commandText === "clear") {
+    output.innerHTML = "";
+    return;
+  }
+
+  if (commandText === "exit") {
+    input.disabled = true;
+  }
+
+  const result = typeof command === "function" ? command() : command;
+  appendOutput(result, true);
+}
+
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const cmd = input.value.trim();
-    if (!cmd) return;
-
-    // Salvar no histórico
-    history.push(cmd);
-    historyIndex = history.length;
-
-    appendOutput(`lucas@portfolio:~$ ${cmd}`);
-
-    const command = commands[cmd.toLowerCase()];
-
-    if (command) {
-      const result = typeof command === "function" ? command() : command;
-      appendOutput(result, typeof command === "function" && cmd === "download");
-      if (cmd === "clear") output.innerHTML = "";
-      if (cmd === "exit") input.disabled = true;
-    } else {
-      appendOutput(`Comando não encontrado: ${cmd}`);
-    }
-
+    handleCommand(input.value);
     input.value = "";
   }
 
-  // Navegação no histórico
   if (e.key === "ArrowUp") {
-    if (historyIndex > 0) {
-      historyIndex--;
-      input.value = history[historyIndex];
-    }
+    if (historyIndex > 0) historyIndex--;
+    input.value = history[historyIndex] || "";
     e.preventDefault();
   }
+
   if (e.key === "ArrowDown") {
-    if (historyIndex < history.length - 1) {
-      historyIndex++;
-      input.value = history[historyIndex];
-    } else {
-      historyIndex = history.length;
-      input.value = "";
-    }
+    if (historyIndex < history.length - 1) historyIndex++;
+    else historyIndex = history.length;
+    input.value = history[historyIndex] || "";
     e.preventDefault();
   }
 });
