@@ -63,7 +63,7 @@ Check my GitHub for projects & contributions.</pre>`,
 
   social: `
 <pre class="cmd-block">🌐 <strong>Social Media:</strong>
-🔗 LinkedIn: <a href="https://linkedin.com/in/lucasguerra-dev" target="_blank" class="link">lucasguerra-dev</a>
+🔗 LinkedIn: <a href="https://www.linkedin.com/in/lucas-guerra-85225826a/" target="_blank" class="link">lucasguerra-dev</a>
 🔗 GitHub: <a href="https://github.com/eolkazin" target="_blank" class="link">eolkazin</a></pre>`,
 
   download: () => `
